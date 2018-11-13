@@ -20,15 +20,13 @@ import java.util.logging.Logger;
  */
 public class UDPConnector implements Connector {
 
-    private final ControllerInterface controller;
 
     private ExecutorService exs = Executors.newCachedThreadPool();
     private List<UDPServerTask> taskList = new ArrayList<UDPServerTask>();
 
     private Logger logger = Logger.getLogger("UDPConnector");
 
-    public UDPConnector(ControllerInterface controller) {
-        this.controller = controller;
+    public UDPConnector() {
     }
 
 
@@ -68,13 +66,11 @@ public class UDPConnector implements Connector {
 
 
     public void stopServer() {
-        //Streams supported starting with Android7/8
         //taskList.stream().forEach(p -> p.setRunning(false));
-        for (UDPServerTask task : taskList) {
-            task.setRunning(false);
+        for(UDPServerTask task : taskList) {
+        	task.setRunning(false);
         }
-
-        exs.shutdownNow();
+    	exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
                 exs.awaitTermination(1, TimeUnit.SECONDS);

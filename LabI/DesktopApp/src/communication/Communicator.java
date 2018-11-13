@@ -12,8 +12,8 @@ public class Communicator {
     private UDPConnector udpConnector;
 
     public Communicator(Protocol protocol, ControllerInterface controller) {
-        tcpConnector = new TCPConnector(controller);
-        udpConnector = new UDPConnector(controller);
+        tcpConnector = new TCPConnector();
+        udpConnector = new UDPConnector();
         setProtocol(protocol);
     }
 

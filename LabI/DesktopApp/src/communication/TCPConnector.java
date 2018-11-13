@@ -19,15 +19,13 @@ import java.util.logging.Logger;
  */
 public class TCPConnector implements Connector {
 
-    private final ControllerInterface controller;
     private Logger logger = Logger.getLogger("TCPConnector");
     private ExecutorService exs = Executors.newCachedThreadPool();
     ;
     private List<TCPServerTask> taskList = new ArrayList<TCPServerTask>();
 
-    public TCPConnector(ControllerInterface controller) {
+    public TCPConnector() {
 
-        this.controller = controller;
     }
 
 
@@ -45,7 +43,6 @@ public class TCPConnector implements Connector {
             try (ObjectOutputStream out = new ObjectOutputStream(
                     clientSocket.getOutputStream())) {
                 out.writeObject(msg);
-                out.flush();
             }
 
 
@@ -69,14 +66,12 @@ public class TCPConnector implements Connector {
     }
 
     public void stopServer() {
-        //Streams supported starting with Android7/8
         //taskList.stream().forEach(p -> p.setRunning(false));
-
-        for(TCPServerTask task : taskList){
-            task.setRunning(false);
+        for(TCPServerTask task : taskList) {
+        	task.setRunning(false);
         }
-
-        exs.shutdownNow();
+    	
+    	exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
                 exs.awaitTermination(1, TimeUnit.SECONDS);
