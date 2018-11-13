@@ -15,6 +15,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +31,7 @@ public class ServerActivity extends AppCompatActivity {
 
     Controller controller = (Controller) Model.getInstance().getController();
     private Logger logger = Logger.getLogger("ServerActivity");
+    private List<StartServerTask> tasks = new ArrayList<StartServerTask>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +81,16 @@ public class ServerActivity extends AppCompatActivity {
         Button startButton = findViewById(R.id.startServerButton);
         StartServerTask sst = new StartServerTask();
         if ("Start Server".equals(startButton.getText())) {
+            tasks.add(sst);
             sst.execute(new ServerConfig(port, protocol));
             startButton.setText("Stop");
 
         } else {
-            sst.stopServer();
-
+            logger.log(Level.INFO,"STOP triggered...");
+            for(StartServerTask task : tasks){
+                task.stopServer();
+                task.cancel(true);
+            }
             startButton.setText("Start Server");
             //Stop ServerTasks
         }
@@ -109,6 +116,8 @@ public class ServerActivity extends AppCompatActivity {
             return "";
         }
 
+
+
         @Override
         protected void onProgressUpdate(String... progress) {
             TextView serverIP = findViewById(R.id.serverIPServer);
@@ -130,7 +139,7 @@ public class ServerActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String string) {
-
+            logger.log(Level.INFO,"POST EXECUTE");
         }
 
         public void stopServer() {

@@ -61,15 +61,15 @@ public class UDPConnector implements Connector {
     }
 
     public void stopServerTasks() {
-        taskList.stream().forEach(p -> p.setRunning(false));
+    	for(UDPServerTask task : taskList) {
+        	task.setRunning(false);
+        }
     }
 
 
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
-        for(UDPServerTask task : taskList) {
-        	task.setRunning(false);
-        }
+        stopServerTasks();
     	exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {

@@ -62,15 +62,17 @@ public class TCPConnector implements Connector {
     }
 
     public void stopServerTasks() {
-        taskList.stream().forEach(p -> p.setRunning(false));
+        //Streams not supported in Android 7 and lower
+    	//taskList.stream().forEach(p -> p.setRunning(false));
+        for(TCPServerTask task : taskList) {
+        	task.setRunning(false);
+        }
     }
 
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
-        for(TCPServerTask task : taskList) {
-        	task.setRunning(false);
-        }
-    	
+        stopServerTasks();
+        
     	exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
