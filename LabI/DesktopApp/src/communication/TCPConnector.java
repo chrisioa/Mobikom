@@ -37,13 +37,12 @@ public class TCPConnector implements Connector {
 
         // try-with-resources block auto closes the socket
         try (Socket clientSocket = new Socket(InetAddress.getByName(ip), port)) {
-            clientSocket.setSoTimeout(2000);
             // Initialize an object output stream to send the message object
             // #{ping}
             try (ObjectOutputStream out = new ObjectOutputStream(
                     clientSocket.getOutputStream())) {
                 out.writeObject(msg);
-                out.flush();
+                //out.flush();
             }
 
 

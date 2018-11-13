@@ -90,9 +90,9 @@ public class ServerActivity extends AppCompatActivity {
             for(StartServerTask task : tasks){
                 task.stopServer();
                 task.cancel(true);
+                tasks.remove(task);
             }
             startButton.setText("Start Server");
-            //Stop ServerTasks
         }
 
     }
