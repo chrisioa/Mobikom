@@ -1,6 +1,5 @@
 package communication;
 
-
 /**
  * Allows the selection/setting of the underlying protocol, the start of a server, triggers the sending of messages over the defined protocol. Server and server tasks can also be stopped.
  */

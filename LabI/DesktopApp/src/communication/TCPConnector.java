@@ -34,7 +34,6 @@ public class TCPConnector implements Connector {
         // Messages to send, should always be final
         final Message msg = new Message(message);
         logger.log(Level.INFO, "Sending message : " + message + " to: " + ip + ":" + port);
-
         // try-with-resources block auto closes the socket
         try (Socket clientSocket = new Socket(InetAddress.getByName(ip), port)) {
             // Initialize an object output stream to send the message object
@@ -63,17 +62,17 @@ public class TCPConnector implements Connector {
 
     public void stopServerTasks() {
         //Streams not supported in Android 7 and lower
-    	//taskList.stream().forEach(p -> p.setRunning(false));
-        for(TCPServerTask task : taskList) {
-        	task.setRunning(false);
+        //taskList.stream().forEach(p -> p.setRunning(false));
+        for (TCPServerTask task : taskList) {
+            task.setRunning(false);
         }
     }
 
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
         stopServerTasks();
-        
-    	exs.shutdownNow();
+
+        exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
                 exs.awaitTermination(1, TimeUnit.SECONDS);
