@@ -27,11 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TCPServerTask.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TCPServerTask.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/communication/TCPServerTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="62" column="19" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="19" />
+            <state relative-caret-position="370">
+              <caret line="35" column="76" selection-start-line="35" selection-start-column="76" selection-end-line="35" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -39,8 +39,8 @@
       <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/communication/Message.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="165">
+              <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
               <folding>
                 <element signature="e#250#251#0" expanded="true" />
                 <element signature="e#288#289#0" expanded="true" />
@@ -62,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TCPConnector.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TCPConnector.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/communication/TCPConnector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="63" column="23" selection-start-line="63" selection-start-column="23" selection-end-line="63" selection-end-column="23" />
+            <state relative-caret-position="265">
+              <caret line="39" column="44" lean-forward="true" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
               <folding>
                 <element signature="e#802#817#0" expanded="true" />
               </folding>
@@ -337,8 +337,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/communication/Message.java" />
-        <option value="$PROJECT_DIR$/src/communication/TCPConnector.java" />
         <option value="$PROJECT_DIR$/src/communication/UDPConnector.java" />
+        <option value="$PROJECT_DIR$/src/communication/TCPConnector.java" />
       </list>
     </option>
   </component>
@@ -352,9 +352,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-85" />
-    <option name="width" value="1902" />
-    <option name="height" value="1075" />
+    <option name="x" value="-173" />
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -513,15 +513,16 @@
       <workItem from="1542097221581" duration="209000" />
       <workItem from="1542097444735" duration="206000" />
       <workItem from="1542097915998" duration="60000" />
-      <workItem from="1542098758053" duration="7549000" />
+      <workItem from="1542098758053" duration="11646000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8024000" />
+    <option name="totallyTimeSpent" value="12121000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Buck" order="7" />
@@ -544,7 +545,7 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.44" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34311634" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32947367" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32947367" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -649,10 +650,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/communication/TCPConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="39" column="44" lean-forward="true" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
+          <folding>
+            <element signature="e#802#817#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/communication/Message.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        <state relative-caret-position="165">
+          <caret line="11" column="52" lean-forward="true" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
           <folding>
             <element signature="e#250#251#0" expanded="true" />
             <element signature="e#288#289#0" expanded="true" />
@@ -666,18 +677,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/communication/TCPServerTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="62" column="19" selection-start-line="62" selection-start-column="19" selection-end-line="62" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/communication/TCPConnector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="63" column="23" selection-start-line="63" selection-start-column="23" selection-end-line="63" selection-end-column="23" />
-          <folding>
-            <element signature="e#802#817#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="370">
+          <caret line="35" column="76" selection-start-line="35" selection-start-column="76" selection-end-line="35" selection-end-column="76" />
         </state>
       </provider>
     </entry>
