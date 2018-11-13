@@ -2,8 +2,6 @@ package de.world.hello.christos.helloworld.main;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import communication.Communicator;
-import communication.ControllerInterface;
 import communication.Model;
 import communication.Protocol;
 import de.world.hello.christos.helloworld.R;
@@ -31,6 +28,7 @@ import de.world.hello.christos.helloworld.networking.ServerConfig;
 public class ServerActivity extends AppCompatActivity {
 
     Controller controller = (Controller) Model.getInstance().getController();
+    private Logger logger = Logger.getLogger("ServerActivity");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,17 @@ public class ServerActivity extends AppCompatActivity {
 
     }
 
+    public void updateTextArea(String s) {
+        logger.log(Level.INFO, "RECEIVED : " + s);
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+                EditText textArea = findViewById(R.id.textArea);
+                textArea.setText(s);
+            }
+        });
+
+    }
 
     public void startServer(View view) {
         Protocol protocol = Protocol.TCP;
@@ -56,6 +65,8 @@ public class ServerActivity extends AppCompatActivity {
 
 
         EditText portField = findViewById(R.id.portServer);
+
+        controller.registerDeps(this);
         String portString = portField.getText().toString();
         int port = 1337;
         if (portString.matches("-?(0|[1-9]\\d*)")) {
@@ -67,19 +78,20 @@ public class ServerActivity extends AppCompatActivity {
         Button startButton = findViewById(R.id.startServerButton);
         StartServerTask sst = new StartServerTask();
         if ("Start Server".equals(startButton.getText())) {
-            sst.execute(new ServerConfig(port,protocol));
-
+            sst.execute(new ServerConfig(port, protocol));
             startButton.setText("Stop");
 
         } else {
-            //sst.cancel(true);
+            sst.stopServer();
+
             startButton.setText("Start Server");
             //Stop ServerTasks
         }
 
     }
 
-    public class StartServerTask extends AsyncTask<ServerConfig, Integer, String> {
+
+    public class StartServerTask extends AsyncTask<ServerConfig, String, String> {
 
         private Logger logger = Logger.getLogger("StartServerTask");
         private int port;
@@ -87,17 +99,20 @@ public class ServerActivity extends AppCompatActivity {
         private Communicator communicator = new Communicator(Protocol.TCP, Model.getInstance().getController());
 
 
-
-
         @Override
         protected String doInBackground(ServerConfig... serverConfigs) {
             ServerConfig config = serverConfigs[0];
             communicator.setProtocol(config.getProtocol());
             communicator.startServer(config.getPort(), Model.getInstance().getController());
+            publishProgress(findOutIp());
 
-            TextView serverIP = findViewById(R.id.serverIPServer);
-            serverIP.setText(findOutIp());
             return "";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            TextView serverIP = findViewById(R.id.serverIPServer);
+            serverIP.setText(progress[0]);
         }
 
         private String findOutIp() {
@@ -114,11 +129,13 @@ public class ServerActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String string){
+        protected void onPostExecute(String string) {
 
         }
 
         public void stopServer() {
+            communicator.stopServerTasks();
+            communicator.stopServer();
         }
 
 

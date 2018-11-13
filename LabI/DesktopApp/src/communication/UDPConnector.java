@@ -68,7 +68,12 @@ public class UDPConnector implements Connector {
 
 
     public void stopServer() {
-        taskList.stream().forEach(p -> p.setRunning(false));
+        //Streams supported starting with Android7/8
+        //taskList.stream().forEach(p -> p.setRunning(false));
+        for (UDPServerTask task : taskList) {
+            task.setRunning(false);
+        }
+
         exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {

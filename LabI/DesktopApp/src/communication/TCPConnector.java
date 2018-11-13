@@ -45,6 +45,7 @@ public class TCPConnector implements Connector {
             try (ObjectOutputStream out = new ObjectOutputStream(
                     clientSocket.getOutputStream())) {
                 out.writeObject(msg);
+                out.flush();
             }
 
 
@@ -68,7 +69,13 @@ public class TCPConnector implements Connector {
     }
 
     public void stopServer() {
-        taskList.stream().forEach(p -> p.setRunning(false));
+        //Streams supported starting with Android7/8
+        //taskList.stream().forEach(p -> p.setRunning(false));
+
+        for(TCPServerTask task : taskList){
+            task.setRunning(false);
+        }
+
         exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
