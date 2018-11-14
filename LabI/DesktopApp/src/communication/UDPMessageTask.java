@@ -20,6 +20,7 @@ public class UDPMessageTask implements Runnable {
     @Override
     public void run() {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
+        	clientSocket.setSoTimeout(1000);
             try (ByteArrayOutputStream bStream = new ByteArrayOutputStream(); ObjectOutput oo = new ObjectOutputStream(bStream)) {
                 Message messageClass = new Message(message);
                 oo.writeObject(messageClass);

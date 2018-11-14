@@ -1,14 +1,8 @@
 package communication;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -16,17 +10,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * UDP Implementation of the {@link communication.Connector} interface, which realizes the sendMessage, startServer messages with UDP.
  */
 public class UDPConnector implements Connector {
 
-
     private ExecutorService exs = Executors.newCachedThreadPool();
-    private List<UDPServerTask> taskList = new ArrayList<UDPServerTask>();
-
     private Logger logger = Logger.getLogger("UDPConnector");
+
+	private List<UDPServerTask> taskList = new ArrayList<UDPServerTask>();
     private List<Future<UDPMessageTask>> futureList = new ArrayList<>();
 
     public UDPConnector() {
@@ -44,7 +36,7 @@ public class UDPConnector implements Connector {
         logger.log(Level.INFO, "Starting UDP server on port: " + port);
         UDPServerTask task = new UDPServerTask(port, controller);
         taskList.add(task);
-        exs.execute(task);
+        exs.submit(task);
     }
 
     public void stopServerTasks() {
