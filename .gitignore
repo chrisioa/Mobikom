@@ -1,3 +1,11 @@
+*.aux
+*.lol
+*.lot
+*.lof
+*.out 
+*.synctex.gz
+*.toc
+Report/src/main.pdf
 # Built application files
 *.apk
 *.ap_
