@@ -2,3 +2,31 @@
 
 redir add tcp:1337:1337 $\rightarrow$ Not working, broken pipe exception,\\
 adb forward tcp:1337 tcp:1337 works (unreliably, but works:  java.io.EOFException)
+
+Following TCP stream:\\
+\texttt{....sr..communication.Message...........L..messaget..Ljava/lang/String;xpt..Hello from the JVM}
+
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{images/task3/desktopTCP.png}
+		\caption{The server interface with JavaFX}
+		\label{fig:desktopTCP}
+	\end{subfigure}
+\begin{subfigure}{.49\textwidth}
+	\centering
+	\includegraphics[width=0.74\linewidth]{images/task3/AndroidTCP.png}
+	\caption{The client interface with JavaFX}
+	\label{fig:androidTCP}
+\end{subfigure}%
+	\caption{Server in the Android emulator}
+	\label{fig:emulator}
+\end{figure}
+
+
+\begin{figure}[H]
+	\includegraphics[width=1\linewidth]{images/task3/wiresharkAndroidEmuServer.png}
+\end{figure}
