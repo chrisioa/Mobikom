@@ -1,6 +1,7 @@
 package communication;
 
 
+import java.awt.peer.ListPeer;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ public class TCPConnector implements Connector {
     private ExecutorService exs = Executors.newCachedThreadPool();
     ;
     private List<TCPServerTask> taskList = new ArrayList<TCPServerTask>();
+    private List<Future<TCPMessageTask>> futureList = new ArrayList<Future<TCPMessageTask>>();
 
     public TCPConnector() {
 
@@ -31,33 +34,20 @@ public class TCPConnector implements Connector {
 
     public void sendMessage(String ip, int port, String message) {
 
+        logger.log(Level.INFO, "Sending message : " + message + " to: " + ip + ":" + port);
         // Messages to send, should always be final
         final Message msg = new Message(message);
-        logger.log(Level.INFO, "Sending message : " + message + " to: " + ip + ":" + port);
-        // try-with-resources block auto closes the socket
-        try (Socket clientSocket = new Socket(InetAddress.getByName(ip), port)) {
-            // Initialize an object output stream to send the message object
-            // #{ping}
-            try (ObjectOutputStream out = new ObjectOutputStream(
-                    clientSocket.getOutputStream())) {
-                out.writeObject(msg);
-                //out.flush();
-            }
-
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        TCPMessageTask messageTask = new TCPMessageTask(ip, port, msg);
+        Future future = exs.submit(messageTask);
+        futureList.add(future);
     }
 
     public void startServer(int port, ControllerInterface controller) {
         logger.log(Level.INFO, "Starting TCP server on port: " + port);
         TCPServerTask task = new TCPServerTask(port, controller);
         taskList.add(task);
-        exs.execute(task);
+        exs.submit(task);
+
     }
 
     public void stopServerTasks() {
@@ -71,7 +61,7 @@ public class TCPConnector implements Connector {
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
         stopServerTasks();
-
+        stopMessageTasks();
         exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
@@ -82,5 +72,13 @@ public class TCPConnector implements Connector {
             //ignored
         }
         logger.log(Level.INFO, "Server shutdown.");
+    }
+
+    private void stopMessageTasks() {
+        for (Future future : futureList) {
+            future.cancel(true);
+            System.out.println("Is done: " + future.isDone());
+        }
+        System.out.println("Futures: " + futureList.size());
     }
 }

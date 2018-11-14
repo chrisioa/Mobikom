@@ -74,7 +74,7 @@ public class Controller implements ControllerInterface {
         String ipAddress = ipAddressFX.getText();
         String message = messageFX.getText();
         Protocol protocol = myComboBox.getSelectionModel().getSelectedItem();
-        communicator = new Communicator(protocol, this);
+        communicator.setProtocol(protocol);
         communicator.sendMessage(ipAddress, port, message);
         //TODO:VALIDATION!
         logger.log(Level.INFO, "\tAddress: " + ipAddress + ":" + port + "\n\t\tMessage: " + message + "\n\t\tProtocol: " + protocol);
