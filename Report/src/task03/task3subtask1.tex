@@ -1,1 +1,4 @@
 \subsection{Evaluation of Data Transmissions to/from the Android Emulator}
+
+redir add tcp:1337:1337 $\rightarrow$ Not working, broken pipe exception,\\
+adb forward tcp:1337 tcp:1337 works (unreliably, but works:  java.io.EOFException)
