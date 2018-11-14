@@ -8,8 +8,10 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +27,7 @@ public class UDPConnector implements Connector {
     private List<UDPServerTask> taskList = new ArrayList<UDPServerTask>();
 
     private Logger logger = Logger.getLogger("UDPConnector");
+    private List<Future<UDPMessageTask>> futureList = new ArrayList<>();
 
     public UDPConnector() {
     }
@@ -32,25 +35,9 @@ public class UDPConnector implements Connector {
 
     public void sendMessage(String ip, int port, String message) {
         logger.log(Level.INFO, "Sending message : " + message + " to: " + ip + ":" + port);
-        try (DatagramSocket clientSocket = new DatagramSocket()) {
-            try (ByteArrayOutputStream bStream = new ByteArrayOutputStream(); ObjectOutput oo = new ObjectOutputStream(bStream)) {
-                Message messageClass = new Message(message);
-                oo.writeObject(messageClass);
-                byte[] serializedMessage = bStream.toByteArray();
-                InetAddress IPAddress = InetAddress.getByName(ip);
-                DatagramPacket sendPacket = new DatagramPacket(serializedMessage, serializedMessage.length, IPAddress, port);
-                clientSocket.send(sendPacket);
-            }
-
-
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        UDPMessageTask task = new UDPMessageTask(ip, port, message);
+        Future future = exs.submit(task);
+        futureList.add(future);
     }
 
     public void startServer(int port, ControllerInterface controller) {
@@ -61,8 +48,8 @@ public class UDPConnector implements Connector {
     }
 
     public void stopServerTasks() {
-    	for(UDPServerTask task : taskList) {
-        	task.setRunning(false);
+        for (UDPServerTask task : taskList) {
+            task.setRunning(false);
         }
     }
 
@@ -70,7 +57,8 @@ public class UDPConnector implements Connector {
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
         stopServerTasks();
-    	exs.shutdownNow();
+        stopMessageTasks();
+        exs.shutdownNow();
         try {
             while (!exs.isShutdown()) {
                 exs.awaitTermination(1, TimeUnit.SECONDS);
@@ -80,5 +68,11 @@ public class UDPConnector implements Connector {
             //ignored
         }
         logger.log(Level.INFO, "Server shutdown.");
+    }
+
+    private void stopMessageTasks() {
+        for (Future<UDPMessageTask> future : futureList) {
+            future.cancel(true);
+        }
     }
 }
