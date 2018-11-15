@@ -9,7 +9,7 @@ public interface Connector {
      * @param port    and receiver port
      * @param message message to be transported
      */
-    void sendMessage(String ip, int port, String message);
+    public void sendMessage(String ip, int port, String message);
 
 
     /**
@@ -18,17 +18,17 @@ public interface Connector {
      * @param port       Port the server listens to
      * @param controller a controller that can be used to for instance update the GUI, display received messages
      */
-    void startServer(int port, ControllerInterface controller);
+    public void startServer(int port, ControllerInterface controller);
 
 
     /**
      * Stops all running instances of any server and prepares program shutdown.
      */
-    void stopServer();
+    public void stopServer();
 
 
     /**
      * Stops all server runnables, but further servers can still be started.
      */
-    void stopServerTasks();
+    public void stopServerTasks();
 }

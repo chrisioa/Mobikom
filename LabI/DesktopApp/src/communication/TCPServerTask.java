@@ -23,7 +23,6 @@ public class TCPServerTask implements Runnable {
 	@Override
 	public void run() {
 		logger.log(Level.INFO, "Waiting for accept");
-
 		while (running) {
 			try (ServerSocket serverSocket = new ServerSocket(port)) {
 				serverSocket.setSoTimeout(1000);

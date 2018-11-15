@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +18,6 @@ public class TCPConnector implements Connector {
     private Logger logger = Logger.getLogger("TCPConnector");
     ;
     private List<TCPServerTask> taskList = new ArrayList<TCPServerTask>();
-    private List<Future<TCPMessageTask>> futureList = new ArrayList<Future<TCPMessageTask>>();
 
     public TCPConnector() {
     }
@@ -28,8 +26,7 @@ public class TCPConnector implements Connector {
     public void sendMessage(String ip, int port, String message) {
         logger.log(Level.INFO, "Sending message : " + message + " to: " + ip + ":" + port);
         TCPMessageTask messageTask = new TCPMessageTask(ip, port, new Message(message));
-        Future future = exs.submit(messageTask);
-        futureList.add(future);
+        exs.submit(messageTask);
     }
 
     public void startServer(int port, ControllerInterface controller) {
@@ -50,7 +47,6 @@ public class TCPConnector implements Connector {
     public void stopServer() {
         //taskList.stream().forEach(p -> p.setRunning(false));
         stopServerTasks();
-        stopMessageTasks();
         exs.shutdown();
         exs.shutdownNow();
         try {
@@ -64,9 +60,5 @@ public class TCPConnector implements Connector {
         logger.log(Level.INFO, "Server shutdown.");
     }
 
-    private void stopMessageTasks() {
-        for (Future<TCPMessageTask> future : futureList) {
-            future.cancel(true);
-        }
-    }
+  
 }
