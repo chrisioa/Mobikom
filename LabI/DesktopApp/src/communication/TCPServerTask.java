@@ -43,9 +43,7 @@ public class TCPServerTask implements Runnable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
-
 	}
 
 	/**

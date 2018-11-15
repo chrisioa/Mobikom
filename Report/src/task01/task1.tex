@@ -43,7 +43,7 @@ Figure \ref{fig:android} summarizes the user interface specific to the Android a
 
 \subsection{Implementation of a TCP Client}
 
-The program employs an MVC pattern, separating the source code in three parts: model, view and control. The networking part of the code is bundled in the \textit{communication} package, where the rest of the program only interacts with the \textit{Communicator} class. The strategy pattern is applied at this point which allows to seamlessly switch between underlying protocol, namely TCP and UDP. The functionalities of each of the protocols are bundled in a class implementing the \textit{Connector} class. This ensures that each of the protocol specific implementations offers the needed operations. In the case of the client, the interface specifies a contract where the method \textit{sendMessage} has to be realized as can be seen in \ref{lst:sendMessageI}.
+The program employs an MVC pattern, separating the source code in three parts: model, view and control. The networking part of the code is bundled in the \textit{communication} package, where the rest of the program only interacts with the \textit{Communicator} class. The strategy pattern is applied at this point which allows to seamlessly switch between underlying protocol, namely TCP and UDP. The functionalities of each of the protocols are bundled in a class implementing the \textit{Connector} interface. This ensures that each of the protocol specific implementations offers the needed operations. In the case of the client, the interface specifies a contract where the method \textit{sendMessage} has to be realized as can be seen in \ref{lst:sendMessageI}.
 
 \begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:sendMessageI]
 /**
@@ -67,7 +67,7 @@ public void sendMessage(String ip, int port, String message) {
 }
 \end{lstlisting}
 
-Listing \ref{lst:TCPMessageTask} shows the implementation of the sending of a TCP message. The try-with-resource block ensures that the socket is automatically closed when reaching the end of the statement. Specifying a timeout for the connecting of the \textit{clientSocket} guarantees that after maximally 2000ms this blocking method continues in execution. Since this is executed in its own thread, the termination of the complete program depends on the termination of this method.
+Listing \ref{lst:TCPMessageTask} shows the implementation of the sending of a TCP message. The try-with-resource block ensures that the socket is automatically closed when reaching the end of the statement. Specifying a timeout for the connecting of the \textit{clientSocket} guarantees that after maximally 2000ms this blocking method continues in execution. Since this is executed in its own thread, the termination of the complete program depends on the termination of this method. Finally, the message that was passed as string value has been bundled in an instance of the \textit{Message} class that implements the \textit{Serializable} interface. 
 
 \begin{minipage}{\linewidth}
 	\begin{lstlisting}[language=Java, caption={TCP sendMessageTask implementation},captionpos=b,label=lst:TCPMessageTask]
@@ -92,7 +92,10 @@ public void run() {
 \end{minipage}
 
 \subsection{Implementation of a TCP Server}
-\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:sendMessageI]
+
+The same program will be used to start a TCP server listening for incoming connections. In order to keep the concerns separated, once a server has been started, the tab allowing for using the application as a TCP client will be disabled. The \textit{Connector} interface prescribes the implementation of a method that shall start a server (see listing \ref{startServerI}). 
+
+\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:startServerI]
 /**
  * This method starts a server with the set protocol on specified port. The controller will be used to update the interface, especially with received messages.
  *
@@ -102,4 +105,23 @@ public void run() {
 public void startServer(int port, ControllerInterface controller);
 \end{lstlisting}
 
+The server implementation is again multithreaded, making use of the same \textit{ExecutorService} instance, that employs a cached thread pool. The runnable that holds the server logic in the run-method, can be seen in listing \ref{lst:runServer}. In order to be able to accept multiple connections, a while-loop checks the value of the \textit{running} boolean. The \textit{volatile} keyword makes sure that a change to this value crosses the memory barrier and the while-loop is stopped when requested. Therefore, all created tasks are stored in a list, and once shutdown is requested, the boolean of each task is set to false. The program successfully terminates.
 
+\begin{minipage}{\linewidth}
+	\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:runServer]
+private volatile boolean running = true;
+@Override
+public void run() {
+  while (running) {
+	try (ServerSocket serverSocket = new ServerSocket(port)) {
+		serverSocket.setSoTimeout(1000);
+		try (Socket clientSocket = serverSocket.accept()) {
+			...
+		} catch (SocketTimeoutException ignored) {}
+	} catch (IOException e) {
+	 ...
+	}
+  }
+}
+	\end{lstlisting}
+\end{minipage}
