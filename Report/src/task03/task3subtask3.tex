@@ -1,1 +1,10 @@
 \subsection{Evaluation of an Android Device in a Mobile Data Network}
+The two implementations of the application connect to 8.8.8.8 to find out the IP address assigned to the device. This IP address is shown in the user interface. When both hosts are connected to the same subnet, these addresses are very helpful and can directly be put in the client UI to establish a connection to the server. The scenario of this subtask though requires the Android application to connect to a mobile network. This renders the displayed IP addresses useless, since the usually have been assigned by a NAT instance in the respective subnet and are not globally accessible. The address the application displays on the Android device for instance is from the 10.0.X.X subnet, indicating the assignment by such a NAT device. The principle of traversing such NAT devices is called \textit{hole punching}, since the global IP has to be determined, circumventing the local address. 
+
+This method can encounter multiple problems: 
+\begin{itemize}
+	\item Several NAT devices can be chained in sequence, making it very hard to pursue \textit{hole punching}.
+	\item Policies in t he provider's network might forbid and restrict the forwarding of TCP/UDP packets. 
+\end{itemize}
+
+There are technologies allowing for a true peer-to-peer communication like WebRTC, the use of ICE/TURN Servers, etc.

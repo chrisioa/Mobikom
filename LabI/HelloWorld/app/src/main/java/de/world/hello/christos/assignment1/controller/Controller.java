@@ -1,19 +1,13 @@
-package de.world.hello.christos.helloworld.controller;
+package de.world.hello.christos.assignment1.controller;
 
-import android.app.Activity;
-import android.widget.EditText;
-
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import communication.ControllerInterface;
 import communication.Model;
 import communication.Protocol;
-import de.world.hello.christos.helloworld.main.ServerActivity;
-import de.world.hello.christos.helloworld.networking.NetworkConfig;
-import de.world.hello.christos.helloworld.networking.SendMessageTask;
-import de.world.hello.christos.helloworld.networking.ServerConfig;
-import de.world.hello.christos.helloworld.networking.StartServerTask;
+import de.world.hello.christos.assignment1.main.ServerActivity;
+import de.world.hello.christos.assignment1.networking.NetworkConfig;
+import de.world.hello.christos.assignment1.networking.SendMessageTask;
 
 public class Controller implements ControllerInterface {
 

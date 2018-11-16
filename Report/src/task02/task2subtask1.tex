@@ -1,1 +1,18 @@
 \subsection{Implementation of a UDP Client}
+\begin{minipage}{\linewidth}
+	\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:sendUDPMessage]
+try (DatagramSocket clientSocket = new DatagramSocket()) {
+	clientSocket.setSoTimeout(1000);
+	try (ByteArrayOutputStream bStream = new ByteArrayOutputStream(); ObjectOutput oo = new ObjectOutputStream(bStream)) {
+		Message messageClass = new Message(message);
+		oo.writeObject(messageClass);
+		byte[] serializedMessage = bStream.toByteArray();
+		InetAddress IPAddress = InetAddress.getByName(ip);
+		DatagramPacket sendPacket = new DatagramPacket(serializedMessage, serializedMessage.length, IPAddress, port);
+		clientSocket.send(sendPacket);
+	}
+} catch (IOException e) {
+	...
+}
+	\end{lstlisting}
+\end{minipage}

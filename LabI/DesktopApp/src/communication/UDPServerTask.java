@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This runnable task provides a UDP server that listens for messages as long as
@@ -17,6 +18,7 @@ public class UDPServerTask implements Runnable {
 	private final ControllerInterface controller;
 	private int port = 1337;
 	private volatile boolean running = true;
+	private final Logger logger = Logger.getLogger("UDPServer");
 
 	public UDPServerTask(int port, ControllerInterface controller) {
 		this.port = port;
@@ -25,29 +27,23 @@ public class UDPServerTask implements Runnable {
 
 	@Override
 	public void run() {
-
 		while (running) {
-
 			try (DatagramSocket serverSocket = new DatagramSocket(port)) {
 				serverSocket.setSoTimeout(1000);
 				byte[] receiveData = new byte[1024];
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				try {
 					serverSocket.receive(receivePacket);
-
 					try (ObjectInputStream iStream = new ObjectInputStream(
 							new ByteArrayInputStream(receivePacket.getData()))) {
 						Message messageClass = (Message) iStream.readObject();
 						System.out.println("RECEIVED: " + messageClass.getMessage());
 						controller.updateTextArea(messageClass.getMessage());
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+						logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 				} catch (SocketTimeoutException ignored) {
 				}
-
-			} catch (SocketException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

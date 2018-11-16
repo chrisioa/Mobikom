@@ -1,8 +1,7 @@
-package de.world.hello.christos.helloworld.networking;
+package de.world.hello.christos.assignment1.networking;
 
 import communication.ControllerInterface;
 import communication.Protocol;
-import de.world.hello.christos.helloworld.controller.Controller;
 
 public class NetworkConfig {
 

@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld.networking;
+package de.world.hello.christos.assignment1.networking;
 
 import android.os.AsyncTask;
 
@@ -6,9 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import communication.Communicator;
-import communication.Protocol;
-
-import static communication.Protocol.TCP;
 
 public class SendMessageTask extends AsyncTask<NetworkConfig, Integer, String> {
 

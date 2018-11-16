@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.world.hello.christos.helloworld">
+    package="de.world.hello.christos.assignment1">
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -8,15 +8,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity android:name="de.world.hello.christos.assignment1.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.ServerActivity"
-                  android:parentActivityName=".main.MainActivity">
+        <activity android:name="de.world.hello.christos.assignment1.main.ServerActivity"
+                  android:parentActivityName="de.world.hello.christos.assignment1.main.MainActivity">
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

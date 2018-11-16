@@ -29,12 +29,6 @@ public class UDPMessageTask implements Runnable {
                 DatagramPacket sendPacket = new DatagramPacket(serializedMessage, serializedMessage.length, IPAddress, port);
                 clientSocket.send(sendPacket);
             }
-
-
-        } catch (SocketException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

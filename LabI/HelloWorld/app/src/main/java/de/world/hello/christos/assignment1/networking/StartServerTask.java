@@ -1,20 +1,12 @@
-package de.world.hello.christos.helloworld.networking;
+package de.world.hello.christos.assignment1.networking;
 
 import android.os.AsyncTask;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import communication.Communicator;
 import communication.Model;
 import communication.Protocol;
-import de.world.hello.christos.helloworld.R;
 
 public class StartServerTask extends AsyncTask<ServerConfig, Integer, String> {
 

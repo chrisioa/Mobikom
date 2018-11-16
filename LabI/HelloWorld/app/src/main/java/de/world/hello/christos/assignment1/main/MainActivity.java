@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld.main;
+package de.world.hello.christos.assignment1.main;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import communication.Protocol;
-import de.world.hello.christos.helloworld.R;
-import de.world.hello.christos.helloworld.controller.Controller;
+import de.world.hello.christos.assignment1.controller.Controller;
+import de.world.hello.christos.assignment1.R;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";

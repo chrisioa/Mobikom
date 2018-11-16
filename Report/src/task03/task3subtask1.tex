@@ -1,7 +1,26 @@
 \subsection{Evaluation of Data Transmissions to/from the Android Emulator}
+\subsubsection{Android App as client}
 
-redir add tcp:1337:1337 $\rightarrow$ Not working, broken pipe exception,\\
+\subsubsection{Android App as server}
+
+The Android Emulator that is shipped with Android Studio puts the virtual device(s) behind a virtual router/firewall, that blocks communication with the host machine by default. In order to test the sending and receiving of TCP/UDP packages, special commands have to be executed allowing the specific flow of packets entering/leaving the virtualized Android instance.\\
+
+The first possibility is to make use of the emulator instance's control console. The following steps are needed: 
+
+\begin{itemize}
+	\item \texttt{telnet localhost 5554} $\rightarrow$ The standard port for the Android Emulator is 5554, it can be inspected in the settings of the actual instance. This command connects to its console.
+	\item \texttt{redir add \{tcp|udp\}:<hostPort>:<clientPort>} $\rightarrow$ This command setups a redirection for the specified protocol from the host port to the emulator port, at least in theory. 
+\end{itemize}
+
+This method has yielded no usable results, neither with UDP nor with TCP. With UDP 
+
+Not working, broken pipe exception,\\
 adb forward tcp:1337 tcp:1337 works (unreliably, but works:  java.io.EOFException)
+
+
+The second possibility makes use of the so-called Android Debugging Bridge (ADB). Once the emulator is running, the command can just be called like this: \texttt{adb forward tcp:<hostPort> tcp:<clientPort>}.
+
+The ADB command has yielded some success, as can be seen in the Wireshark traces of figure \ref{fig:wire1} where a TCP stream is being followed. 
 
 Following TCP stream:\\
 \texttt{....sr..communication.Message...........L..messaget..Ljava/lang/String;xpt..Hello from the JVM}
@@ -29,4 +48,6 @@ Following TCP stream:\\
 
 \begin{figure}[H]
 	\includegraphics[width=1\linewidth]{images/task3/wiresharkAndroidEmuServer.png}
+	\caption{Wireshark traces where Android App acts as a TCP server}
+	\label{fig:wire1}
 \end{figure}

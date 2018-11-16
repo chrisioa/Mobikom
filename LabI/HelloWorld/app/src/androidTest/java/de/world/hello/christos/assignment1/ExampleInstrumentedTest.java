@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld;
+package de.world.hello.christos.assignment1;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

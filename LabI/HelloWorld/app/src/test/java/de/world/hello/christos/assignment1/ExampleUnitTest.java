@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld;
+package de.world.hello.christos.assignment1;
 
 import org.junit.Test;
 

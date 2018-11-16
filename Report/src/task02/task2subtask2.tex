@@ -1,1 +1,2 @@
 \subsection{Implementation of a UDP Server}
+The UDP server is again implemented in a separate task implementing the \textit{Runnable} interface, and is also stoppable via a volatile boolean variable. The deciphering of the messages has to be done analogous to the sending: A byte-array is filled with the received data, and feeds a \textit{ByteArrayInputStream}, that is being piped through an \textit{ObjectInputstream}. Finally, the message is being cast to an instance of our \textit{Message} class. 

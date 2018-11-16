@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld.networking;
+package de.world.hello.christos.assignment1.networking;
 
 import communication.Protocol;
 

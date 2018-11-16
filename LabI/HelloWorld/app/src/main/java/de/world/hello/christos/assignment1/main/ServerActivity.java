@@ -1,4 +1,4 @@
-package de.world.hello.christos.helloworld.main;
+package de.world.hello.christos.assignment1.main;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 import communication.Communicator;
 import communication.Model;
 import communication.Protocol;
-import de.world.hello.christos.helloworld.R;
-import de.world.hello.christos.helloworld.controller.Controller;
-import de.world.hello.christos.helloworld.networking.ServerConfig;
+import de.world.hello.christos.assignment1.networking.ServerConfig;
+import de.world.hello.christos.assignment1.R;
+import de.world.hello.christos.assignment1.controller.Controller;
 
 public class ServerActivity extends AppCompatActivity {
 
