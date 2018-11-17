@@ -1,6 +1,6 @@
 \subsection{Implementation of a UDP Client}
 \begin{minipage}{\linewidth}
-	\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:sendUDPMessage]
+	\begin{lstlisting}[language=Java, caption={Implementation of the UDP send message method},captionpos=b,label=lst:sendUDPMessage]
 try (DatagramSocket clientSocket = new DatagramSocket()) {
 	clientSocket.setSoTimeout(1000);
 	try (ByteArrayOutputStream bStream = new ByteArrayOutputStream(); ObjectOutput oo = new ObjectOutputStream(bStream)) {

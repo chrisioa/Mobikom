@@ -1,5 +1,49 @@
 \subsection{Evaluation of Data Transmissions to/from the Android Emulator}
 \subsubsection{Android App as client}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{images/task3/subtask1/jvmservertcp.png}
+		\caption{JVM server using TCP}
+		\end{subfigure}
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=0.74\linewidth]{images/task3/subtask1/androidclienttcp.png}
+		\caption{Android client using tcp}
+	\end{subfigure}%
+	\caption{Android emulator as TCP client}
+\end{figure}
+
+\texttt{....sr..communication.Message...........L..messaget..Ljava/lang/String;xpt..Hello from AndroidE TCP} 
+
+\begin{figure}[H]
+	\includegraphics[width=1\linewidth]{images/task3/subtask1/wiresharkTCP.png}
+	\caption{Wireshark traces where Android App acts as a TCP client}
+\end{figure}
+
+The whole procedure was repeated using the UDP protocol, please find the findings below:\\
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{images/task3/subtask1/jvmserverudp.png}
+		\caption{JVM server using UDP}
+	\end{subfigure}
+	\begin{subfigure}{.49\textwidth}
+		\centering
+		\includegraphics[width=0.74\linewidth]{images/task3/subtask1/androidclientudp.png}
+		\caption{Android client using UDP}
+	\end{subfigure}%
+	\caption{Android emulator as UDP client}
+\end{figure}
+
+\texttt{....sr..communication.Message...........L..messaget..Ljava/lang/String;xpt..Hello from AndroidE UDP}
+\begin{figure}[H]
+	\includegraphics[width=1\linewidth]{images/task3/subtask1/wiresharkUDP.png}
+	\caption{Wireshark traces where Android App acts as a UDP client}
+\end{figure}
 
 \subsubsection{Android App as server}
 
@@ -12,20 +56,12 @@ The first possibility is to make use of the emulator instance's control console.
 	\item \texttt{redir add \{tcp|udp\}:<hostPort>:<clientPort>} $\rightarrow$ This command setups a redirection for the specified protocol from the host port to the emulator port, at least in theory. 
 \end{itemize}
 
-This method has yielded no usable results, neither with UDP nor with TCP. With UDP 
-
-Not working, broken pipe exception,\\
-adb forward tcp:1337 tcp:1337 works (unreliably, but works:  java.io.EOFException)
-
+This method has yielded no usable results, neither with UDP nor with TCP.
 
 The second possibility makes use of the so-called Android Debugging Bridge (ADB). Once the emulator is running, the command can just be called like this: \texttt{adb forward tcp:<hostPort> tcp:<clientPort>}.
 
-The ADB command has yielded some success, as can be seen in the Wireshark traces of figure \ref{fig:wire1} where a TCP stream is being followed. 
-
-Following TCP stream:\\
+The ADB command has yielded some success, as can be seen in the Wireshark traces of figure \ref{fig:wire1} where a TCP stream is being followed, whose contents look like this:\\
 \texttt{....sr..communication.Message...........L..messaget..Ljava/lang/String;xpt..Hello from the JVM}
-
-
 
 \begin{figure}[H]
 	\centering

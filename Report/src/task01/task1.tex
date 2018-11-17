@@ -22,13 +22,13 @@
 	\begin{subfigure}{.49\textwidth}
 		\centering
 		\includegraphics[width=0.75\linewidth]{images/task1/clientAndroid.png}
-		\caption{The client interface with JavaFX}
+		\caption{The client activity on Android}
 		\label{fig:clientAndroid}
 	\end{subfigure}%
 	\begin{subfigure}{.49\textwidth}
 		\centering
 		\includegraphics[width=0.75\linewidth]{images/task1/serverAndroid.png}
-		\caption{The server interface with JavaFX}
+		\caption{The server activity on Android}
 		\label{fig:serverAndroid}
 	\end{subfigure}
 	\caption{The Android application, structured with two activities}
@@ -95,7 +95,7 @@ public void run() {
 
 The same program will be used to start a TCP server listening for incoming connections. In order to keep the concerns separated, once a server has been started, the tab allowing for using the application as a TCP client will be disabled. The \textit{Connector} interface prescribes the implementation of a method that shall start a server (see listing \ref{startServerI}). 
 
-\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:startServerI]
+\begin{lstlisting}[language=Java, caption={Interface prescribes a startServer method},captionpos=b,label=lst:startServerI]
 /**
  * This method starts a server with the set protocol on specified port. The controller will be used to update the interface, especially with received messages.
  *
@@ -108,7 +108,7 @@ public void startServer(int port, ControllerInterface controller);
 The server implementation is again multithreaded, making use of the same \textit{ExecutorService} instance, that employs a cached thread pool. The runnable that holds the server logic in the run-method, can be seen in listing \ref{lst:runServer}. In order to be able to accept multiple connections, a while-loop checks the value of the \textit{running} boolean. The \textit{volatile} keyword makes sure that a change to this value crosses the memory barrier and the while-loop is stopped when requested. Therefore, all created tasks are stored in a list, and once shutdown is requested, the boolean of each task is set to false. The program successfully terminates.
 
 \begin{minipage}{\linewidth}
-	\begin{lstlisting}[language=Java, caption={Interface prescribes a sendMessage method},captionpos=b,label=lst:runServer]
+	\begin{lstlisting}[language=Java, caption={Run method of TCPServerTask},captionpos=b,label=lst:runServer]
 private volatile boolean running = true;
 @Override
 public void run() {
@@ -125,3 +125,12 @@ public void run() {
 }
 	\end{lstlisting}
 \end{minipage}
+
+The communication package bundling the network specific classes was exported with the help of eclipse as a \textit{.jar} file. This file was added as a library to the Android project, ensuring a seamless reuse of the already written parts.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/task1/jar.png}
+	\caption{Communicaions.jar in the Android project}
+	\label{fig:jar}
+\end{figure}
